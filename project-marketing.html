@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Marketing Campaign Insights & Automation - Meet Patel</title>
+    <meta name="description" content="Details about the Marketing Campaign Insights & Automation project by Meet Patel.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand logo-container" href="index.html#projects">
+                <img src="logomeet.png" alt="Meet Patel Logo" class="navbar-logo">
+                <span class="ms-2 fw-bold back-link">← Back to Portfolio</span>
+            </a>
+        </div>
+    </nav>
+
+    <section id="project-detail" class="py-5 section-padding">
+        <div class="container">
+             <div class="section-title text-center mb-5">
+                <h1 class="display-5 fw-bold">Project: Marketing Campaign Insights & Automation</h1>
+                <hr class="title-hr mx-auto">
+            </div>
+
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <h2 class="h4 fw-bold mb-3">Overview</h2>
+                    <p>This project involved analyzing marketing campaign data to generate insights, automate performance tracking, and build predictive models to enhance campaign effectiveness and ROI. The goal was to leverage data analytics to make informed, data-driven marketing decisions while ensuring compliance with data privacy regulations like HIPAA and GDPR.</p>
+
+                    <div class="mb-4 shadow rounded border text-center p-3 bg-secondary-subtle">
+                         <img src="" class="img-fluid rounded project-main-image" alt="Marketing Analytics Dashboard Example" loading="lazy">
+                    </div>
+
+                    <h2 class="h4 fw-bold mb-3">Key Activities & Achievements</h2>
+                     <ul class="list-group list-group-flush mb-3">
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Analyzed campaign data using SQL and Google Analytics, uncovering trends that boosted engagement by 15%.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Automated campaign performance tracking using Apache Airflow and AWS Glue, reducing manual reporting efforts.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Designed and developed predictive models in Python to forecast campaign outcomes.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Enabled data-driven decisions that enhanced Return on Investment (ROI) by 10%.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Developed Tableau dashboards for real-time Key Performance Indicator (KPI) tracking.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Ensured HIPAA and GDPR compliance in all analysis and reporting workflows, safeguarding data.</li>
+                         <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Streamlined decision-making processes related to marketing strategies.</li>
+                    </ul>
+
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-sidebar">
+                        <div class="card-body">
+                            <h3 class="h5 fw-bold mb-3">Project Info</h3>
+                             <p><i class="bi bi-calendar-event me-2"></i><strong>Date:</strong> Oct 2024 – Dec 2024</p>
+                             <p><i class="bi bi-tags-fill me-2"></i><strong>Type:</strong> Personal / Academic</p>
+
+                            <h4 class="h6 fw-bold mt-4 mb-2">Technologies Used:</h4>
+                             <div class="d-flex flex-wrap gap-1">
+                                <span class="badge text-bg-primary">SQL</span>
+                                <span class="badge text-bg-secondary">Google Analytics</span>
+                                <span class="badge text-bg-warning text-dark">Apache Airflow</span>
+                                <span class="badge text-bg-warning text-dark">AWS Glue</span>
+                                <span class="badge text-bg-primary">Python</span>
+                                <span class="badge text-bg-success">Tableau</span>
+                                <span class="badge text-bg-danger">HIPAA</span>
+                                <span class="badge text-bg-danger">GDPR</span>
+                            </div>
+
+                             <div class="mt-4 d-grid gap-2">
+                                <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-sm button-hover-effect"><i class="bi bi-github me-1"></i> View Related GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="text-center mt-5">
+                 <a href="index.html#projects" class="btn btn-outline-secondary button-hover-effect"><i class="bi bi-arrow-left me-1"></i> Back to All Projects</a>
+            </div>
+        </div>
+    </section>
+
+     <footer class="py-4 bg-dark text-white text-center">
+        <div class="container">
+            <p class="mb-0 small">&copy; <span id="current-year"></span> Meet Patel. All Rights Reserved.</p>
+         </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <script>
+        // Simple footer year update for project pages
+        document.addEventListener('DOMContentLoaded', () => {
+            const yearSpan = document.getElementById('current-year');
+            if(yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+        });
+    </script>
+</body>
+</html>

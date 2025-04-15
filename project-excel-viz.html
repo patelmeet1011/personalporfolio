@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Excel Visualization Web App - Meet Patel</title>
+    <meta name="description" content="Details about the Excel Visualization Web App (Excel Viz Pro) project by Meet Patel.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand logo-container" href="index.html#projects">
+                <img src="logomeet.png" alt="Meet Patel Logo" class="navbar-logo">
+                <span class="ms-2 fw-bold back-link">← Back to Portfolio</span>
+            </a>
+        </div>
+    </nav>
+
+    <section id="project-detail" class="py-5 section-padding">
+        <div class="container">
+             <div class="section-title text-center mb-5">
+                 <h1 class="display-5 fw-bold">Project: Excel Visualization Web App ("Excel Viz Pro")</h1>
+                 <hr class="title-hr mx-auto">
+            </div>
+
+            <div class="row g-5">
+                <div class="col-lg-8">
+                    <h2 class="h4 fw-bold mb-3">Overview</h2>
+                    <p>Developed "Excel Viz Pro," a user-friendly web application built with Python and Streamlit. This tool empowers users to upload Excel files (CSV or XLSX format) and instantly generate dynamic, interactive visualizations such as bar charts, line charts, scatter plots, and more. The application aims to simplify the process of exploratory data analysis directly from common spreadsheet formats, making data insights more accessible.</p>
+
+                    <div class="mb-4 shadow rounded border text-center p-3 bg-secondary-subtle">
+                         <img src="project-one.png" class="img-fluid rounded project-main-image" alt="Excel Viz Pro Logo" loading="lazy" style="max-height: 400px;">
+                    </div>
+
+                    <h2 class="h4 fw-bold mb-3">Key Features & Functionality</h2>
+                     <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>File Upload: Supports CSV and XLSX file formats.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Dynamic Visualization: Automatically generates various interactive charts (bar, line, scatter, etc.) based on uploaded data using Plotly.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>User Interaction: Allows users to potentially select columns for plotting and customize chart types.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Report Download: Enables downloading visualizations or summary reports.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Intuitive Interface: Built with Streamlit for a simple and responsive user experience.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Efficient Data Handling: Uses Pandas and NumPy for backend data manipulation.</li>
+                    </ul>
+                     <p>The project focused on implementing a user-centric design to provide actionable insights through an easy-to-use interface, streamlining basic data exploration tasks.</p>
+
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm sticky-sidebar">
+                        <div class="card-body">
+                            <h3 class="h5 fw-bold mb-3">Project Info</h3>
+                            <p><i class="bi bi-calendar-event me-2"></i><strong>Date:</strong> Sep 2023 – Dec 2023</p>
+                            <p><i class="bi bi-tags-fill me-2"></i><strong>Type:</strong> Personal / Academic</p>
+
+                            <h4 class="h6 fw-bold mt-4 mb-2">Technologies Used:</h4>
+                             <div class="d-flex flex-wrap gap-1">
+                                <span class="badge text-bg-primary">Python</span>
+                                <span class="badge text-bg-secondary">Streamlit</span>
+                                <span class="badge text-bg-info text-dark">Pandas</span>
+                                <span class="badge text-bg-info text-dark">NumPy</span>
+                                <span class="badge text-bg-success">Plotly</span>
+                                <span class="badge text-bg-light text-dark border">CSV</span>
+                                <span class="badge text-bg-light text-dark border">XLSX</span>
+                            </div>
+
+                             <div class="mt-4 d-grid gap-2">
+                                <a href="https://patelmeet1011.github.io/ExcelVizProIt485/" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm button-hover-effect"><i class="bi bi-box-arrow-up-right me-1"></i> View Live Demo</a>
+                                <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-dark btn-sm button-hover-effect"><i class="bi bi-github me-1"></i> View Related GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="text-center mt-5">
+                 <a href="index.html#projects" class="btn btn-outline-secondary button-hover-effect"><i class="bi bi-arrow-left me-1"></i> Back to All Projects</a>
+            </div>
+        </div>
+    </section>
+
+     <footer class="py-4 bg-dark text-white text-center">
+        <div class="container">
+            <p class="mb-0 small">&copy; <span id="current-year"></span> Meet Patel. All Rights Reserved.</p>
+         </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <script>
+        // Simple footer year update for project pages
+        document.addEventListener('DOMContentLoaded', () => {
+            const yearSpan = document.getElementById('current-year');
+            if(yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+        });
+    </script>
+</body>
+</html>
