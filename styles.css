@@ -1,9 +1,8 @@
-
-/* 
+/*
   My Personal Website Style Sheet
   Filename:  styles.css
   Author:    Meet Patel
-  Date:      12/16/2022
+  Date:      04/16/2025
 */
 
 /* Import Google Fonts (Optional) */
@@ -47,7 +46,7 @@
     .timeline::before { background-color: var(--bs-border-color-dark); }
     .timeline > li > .timeline-badge { border-color: var(--bs-body-bg-dark); }
     #hero {
-        background: linear-gradient(rgba(10,10,15,0.8), rgba(10,10,15,0.9)), var(--hero-bg-dark, url('images/hero-bg-dark.jpg') no-repeat center center);
+        /* background: linear-gradient(rgba(10,10,15,0.8), rgba(10,10,15,0.9)), var(--hero-bg-dark, url('images/hero-bg-dark.jpg') no-repeat center center); */ /* <-- Commented out for VantaJS */
         background-size: cover;
         color: var(--bs-body-color-dark);
     }
@@ -70,7 +69,7 @@
     .form-control { background-color: #343a40; color: var(--bs-body-color-dark); border-color: var(--bs-border-color-dark); }
     .form-control::placeholder { color: #6c757d; }
     .form-control:focus {
-         background-color: #343a40;
+        background-color: #343a40;
         color: var(--bs-body-color-dark);
         border-color: rgba(var(--bs-primary-rgb), 0.8);
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
@@ -177,7 +176,12 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* --- Hero Section --- */
-.hero-section { position: relative; color: #fff; background: linear-gradient(rgba(var(--bs-dark-rgb),0.6), rgba(var(--bs-dark-rgb),0.8)), url('images/default-hero-bg.jpg') no-repeat center center; background-size: cover; }
+.hero-section {
+    position: relative;
+    color: #fff;
+    /* background: linear-gradient(rgba(var(--bs-dark-rgb),0.6), rgba(var(--bs-dark-rgb),0.8)), url('images/default-hero-bg.jpg') no-repeat center center; */ /* <-- Commented out for VantaJS */
+    background-size: cover;
+}
 .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.1); z-index: 1; }
 .hero-section .container { z-index: 2; }
 .hero-title { font-weight: 900; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
