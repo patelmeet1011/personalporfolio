@@ -12,12 +12,25 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggleBtn.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
             themeToggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
         }
-        localStorage.setItem('theme', theme);
+        // Use try-catch for localStorage in case it's blocked/unavailable
+        try {
+            localStorage.setItem('theme', theme);
+        } catch (e) {
+            console.warn("LocalStorage is not available. Theme preference cannot be saved.");
+        }
     };
 
-    const storedTheme = localStorage.getItem('theme');
-    const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const currentTheme = storedTheme || preferredTheme;
+    let currentTheme = 'light'; // Default theme
+    try {
+      const storedTheme = localStorage.getItem('theme');
+      const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      currentTheme = storedTheme || preferredTheme;
+    } catch (e) {
+        console.warn("Could not access localStorage to read theme preference.");
+        // Fallback to system preference if localStorage fails
+        const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        currentTheme = preferredTheme;
+    }
     setTheme(currentTheme); // Set initial theme
 
     if (themeToggleBtn) {
@@ -34,6 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
         offset: 50,    // Offset (in px) from the original trigger point
         easing: 'ease-out-cubic', // Smoother easing
     });
+
+    // --- VantaJS Initialization ---
+    // (Place this after other initializations like Theme and AOS)
+    try {
+        if (document.getElementById('vanta-bg')) { // Check if the element exists
+            VANTA.NET({
+              el: "#vanta-bg", // Target the div you added in index.html
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.00,
+              minWidth: 200.00,
+              scale: 1.00,
+              scaleMobile: 1.00,
+              // --- Customize These ---
+              color: 0x4A90E2,         // Example: Your primary blue (or choose another)
+              backgroundColor: currentTheme === 'dark' ? 0x121212 : 0xffffff, // Match theme background
+              points: 12.00,           // Adjust density
+              maxDistance: 23.00,      // Adjust connection distance
+              spacing: 18.00           // Adjust point spacing
+              // Add more NET-specific options if needed
+            });
+            console.log("VantaJS NET effect initialized on #vanta-bg.");
+        } else {
+            console.warn("VantaJS target element #vanta-bg not found.");
+        }
+    } catch (e) {
+        console.error("VantaJS initialization error:", e);
+    }
+    // --- End of VantaJS Initialization ---
 
     // --- Footer Year ---
     const currentYearSpan = document.getElementById('current-year');
@@ -52,8 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skillModal) {
         skillModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget; // Card that triggered the modal
-            const skillName = button.getAttribute('data-skill-name');
-            const skillDetails = button.getAttribute('data-skill-details');
+            // Provide default values if attributes are missing
+            const skillName = button.getAttribute('data-skill-name') || 'Skill Details';
+            const skillDetails = button.getAttribute('data-skill-details') || 'No details provided.';
 
             const modalTitle = skillModal.querySelector('#modal-skill-name');
             const modalBody = skillModal.querySelector('#modal-skill-details');
@@ -72,61 +116,66 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filterContainer && projectItems.length > 0 && projectGallery) {
         filterContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('filter-btn')) {
+                // Deactivate currently active button
                 const currentActive = filterContainer.querySelector('.filter-btn.active');
                 if (currentActive) {
                     currentActive.classList.remove('active');
                     currentActive.setAttribute('aria-pressed', 'false');
                 }
+                // Activate clicked button
                 e.target.classList.add('active');
                 e.target.setAttribute('aria-pressed', 'true');
 
                 const filterValue = e.target.getAttribute('data-filter');
 
-                // Add a class to the gallery to manage layout transition
+                // Add a class to the gallery to manage layout transition (optional, depends on CSS)
                 projectGallery.classList.add('filtering');
 
                 projectItems.forEach(item => {
                     const tags = item.getAttribute('data-tags')?.split(',') || [];
                     const shouldShow = filterValue === 'all' || tags.includes(filterValue);
 
+                    // Use CSS classes for hide/show to leverage transitions
                     if (shouldShow) {
                         item.classList.remove('hide');
                     } else {
                         item.classList.add('hide');
                     }
-                     // Ensure AOS animations are correctly handled on filter changes
-                    item.classList.remove('aos-animate'); // Remove AOS animation class
+                    // Ensure AOS animations are correctly handled on filter changes
+                    // Remove animation class to reset state for potential re-animation
+                    item.classList.remove('aos-animate');
                 });
 
-                 // Refresh AOS after a short delay to allow CSS transitions
-                 setTimeout(() => {
-                     AOS.refresh();
-                     projectGallery.classList.remove('filtering'); // Remove transition class
-                     // Re-add aos-animate to visible items if needed for re-animation (use carefully)
-                     projectItems.forEach(item => {
-                         if (!item.classList.contains('hide')) {
-                            // If you want items to re-animate on filter, uncomment next line
-                            // item.classList.add('aos-init', 'aos-animate');
-                         }
-                     });
-                 }, 400); // Match transition duration in CSS if specified
+                // Refresh AOS after a short delay to allow CSS transitions and layout shifts
+                setTimeout(() => {
+                    AOS.refresh(); // Recalculate element positions for AOS
+                    projectGallery.classList.remove('filtering'); // Remove transition helper class
+
+                    // Optionally re-trigger animations for newly visible items
+                    projectItems.forEach(item => {
+                        if (!item.classList.contains('hide') && !item.classList.contains('aos-animate')) {
+                            // Add classes back to trigger animation; adjust as needed
+                            item.classList.add('aos-init', 'aos-animate');
+                        }
+                    });
+                }, 300); // Adjust delay to match CSS transition duration if any
             }
         });
     }
 
 
     // --- Navbar Active State Highlight & Smooth Scroll ---
-    // Bootstrap's Scrollspy handles active state via data attributes on the body tag.
-    // Adding smooth scroll enhancement for internal links:
-    document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"]').forEach(anchor => {
+    // Bootstrap's Scrollspy handles active state. This enhances smooth scroll.
+    document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"], a.back-to-top-btn[href^="#"]').forEach(anchor => { // Added .back-to-top-btn
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            // Only prevent default for internal links (starting with #)
+            // Ensure it's a valid internal link
             if (href && href.startsWith('#') && href.length > 1) {
-                 e.preventDefault();
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
-                    const navbarHeight = document.getElementById('navbar-main')?.offsetHeight || 70; // Use defined height or default
+                    e.preventDefault(); // Prevent default jump only if target exists
+
+                    const navbarHeight = document.getElementById('navbar-main')?.offsetHeight || 70;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
 
@@ -135,14 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         behavior: "smooth"
                     });
 
-                    // Close mobile navbar if open
+                    // Close mobile navbar if open after clicking a link
                     const navbarToggler = document.querySelector('.navbar-toggler');
                     const navbarCollapse = document.querySelector('.navbar-collapse');
-                    if (navbarToggler && navbarCollapse?.classList.contains('show')) {
-                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-                        if (bsCollapse) {
-                            bsCollapse.hide();
-                        }
+                    // Check if the toggler is not collapsed (visible) and the collapse menu is shown
+                    if (navbarToggler && !navbarToggler.classList.contains('collapsed') && navbarCollapse?.classList.contains('show')) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse, { toggle: false });
+                        bsCollapse.hide();
                     }
                 }
             }
@@ -157,90 +205,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (contactForm && formStatus && submitButton) {
         contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default browser submission
-            e.stopPropagation(); // Prevent event bubbling
+            e.preventDefault();
+            e.stopPropagation();
 
-            // Use Bootstrap's built-in validation feedback
             if (!contactForm.checkValidity()) {
                 contactForm.classList.add('was-validated');
-                // Optionally provide a general status message
-                formStatus.textContent = 'Please review the highlighted fields.';
-                // Use dismissible alert for better UX
+                // Provide clearer feedback for validation errors
                 formStatus.className = 'alert alert-warning alert-dismissible fade show';
-                formStatus.innerHTML += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                formStatus.innerHTML = 'Please check the required fields. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                 return;
             }
-            // Ensure validation styles are shown if form is valid but submitted
-            contactForm.classList.add('was-validated');
+            contactForm.classList.add('was-validated'); // Keep validation styles visible
 
-            // --- Submission Logic ---
             const formData = new FormData(contactForm);
-            const formAction = contactForm.getAttribute('action'); // Get endpoint from form action attribute
+            const formAction = contactForm.getAttribute('action');
+            const submitButtonOriginalHTML = submitButton.innerHTML; // Store original button content
+            const spinner = submitButton.querySelector('.spinner-border');
 
-            // Check if endpoint is configured
             if (!formAction || formAction === "YOUR_FORM_ENDPOINT") {
-                 formStatus.textContent = 'Form submission endpoint is not configured.';
-                 formStatus.className = 'alert alert-danger show';
-                 return; // Stop submission
+                console.error("Form submission endpoint is not configured.");
+                formStatus.className = 'alert alert-danger show alert-dismissible fade show';
+                formStatus.innerHTML = 'Form submission is not configured. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                return;
             }
 
-            // Show loading state
             submitButton.disabled = true;
-            const spinner = submitButton.querySelector('.spinner-border');
-            if(spinner) spinner.classList.remove('d-none');
-            formStatus.className = 'alert alert-info show'; // Use 'show' class for transitions
-            formStatus.textContent = 'Sending message...';
+            if (spinner) spinner.classList.remove('d-none');
+            // Update button text more reliably
+            submitButton.childNodes[spinner ? 1 : 0].textContent = ' Sending... ';
+            formStatus.className = 'alert alert-info show';
+            formStatus.textContent = 'Sending your message... Please wait.';
 
             try {
                 const response = await fetch(formAction, {
                     method: 'POST',
                     body: formData,
-                    headers: { 'Accept': 'application/json' } // Important for services like Formspree
+                    headers: { 'Accept': 'application/json' }
                 });
 
                 if (response.ok) {
-                    // Success
-                    formStatus.className = 'alert alert-success show';
-                    formStatus.textContent = 'Message sent successfully! Thanks for reaching out.';
+                    formStatus.className = 'alert alert-success alert-dismissible fade show';
+                    formStatus.innerHTML = 'Message sent successfully! Thank you. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                     contactForm.reset();
-                    contactForm.classList.remove('was-validated'); // Reset validation state
+                    contactForm.classList.remove('was-validated');
                 } else {
-                     // Handle non-OK responses (e.g., server errors)
-                    const errorData = await response.json().catch(() => ({})); // Try to parse error, default to empty object
-                    const errorMessage = errorData.error || `Error: ${response.statusText || 'Form submission failed.'}`;
+                    let errorMessage = 'An error occurred during submission.';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || errorData.message || `Server Error: ${response.status} ${response.statusText}`;
+                    } catch (parseError) {
+                        errorMessage = `Server Error: ${response.status} ${response.statusText}`;
+                    }
                     throw new Error(errorMessage);
                 }
 
             } catch (error) {
-                 // Handle fetch errors (network issues) or errors thrown above
                 console.error('Form submission error:', error);
-                formStatus.className = 'alert alert-danger show';
-                formStatus.textContent = error.message || 'Oops! Network error. Please try again.';
+                formStatus.className = 'alert alert-danger alert-dismissible fade show';
+                formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
             } finally {
-                // Hide loading state
                 submitButton.disabled = false;
-                if(spinner) spinner.classList.add('d-none');
-                 // Auto-dismiss status messages after a delay for better UX
+                // Restore original button content (including icon)
+                submitButton.innerHTML = submitButtonOriginalHTML;
+
+                // Auto-dismiss status messages after a delay
                 setTimeout(() => {
-                    // Check if the alert still exists and has the 'show' class
-                    if (formStatus.classList.contains('show')) {
-                        const currentAlert = bootstrap.Alert.getInstance(formStatus);
-                        if (currentAlert) {
-                            currentAlert.close(); // Use Bootstrap's close method if available
-                        } else {
-                            // Fallback if instance not found (might happen if closed manually)
-                            formStatus.classList.remove('show');
-                             formStatus.textContent = ''; // Clear text as well
-                             formStatus.className = ''; // Clear classes
-                        }
-                    }
-                 }, 7000); // 7 seconds
+                   const currentAlertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                   currentAlertInstance?.close(); // Gracefully close using Bootstrap's method
+                }, 7000); // 7 seconds
             }
         });
     }
 
 
     // --- Back to Top Button ---
+    // (Your existing Back to Top Button code seems fine, keeping it as is)
     const backToTopButton = document.getElementById('back-to-top');
     if (backToTopButton) {
         const scrollThreshold = 300; // Show button after scrolling down this many pixels
@@ -252,14 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Smooth scroll to top when button clicked
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        // Smooth scroll event listener is already added in the "Navbar Active State Highlight & Smooth Scroll" section
+        // Just need the scroll listener for visibility
 
         // Listen for scroll events to show/hide button
         window.addEventListener('scroll', toggleBackToTopButton);
